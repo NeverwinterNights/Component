@@ -3,6 +3,7 @@ import {StyleSheet, View} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type IconPropsType = {
+  // name: keyof typeof MaterialCommunityIcons;
   name: string;
   size?: number;
   backgroundColor?: string;
@@ -15,12 +16,17 @@ export const Icon = ({
   name,
   size = 50,
 }: IconPropsType) => {
+
+
+
+
   const customStyle = {
     width: size,
     height: size,
     borderRadius: size / 2,
     backgroundColor,
   };
+
   return (
     <View style={[styles.container, customStyle]}>
       <MaterialCommunityIcons name={name} color={iconColor} size={size * 0.6} />

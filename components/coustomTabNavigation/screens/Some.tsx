@@ -4,6 +4,7 @@ import {useAppNavigation} from '../navigationTypes';
 import colors from '../../../config/colors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {DrawerActions} from '@react-navigation/native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type SomePropsType = {};
 
@@ -38,6 +39,7 @@ export const Some = ({}: SomePropsType) => {
   return (
     <View style={styles.container}>
       <Text>Some</Text>
+      <MaterialCommunityIcons name="menu" />
     </View>
   );
 };

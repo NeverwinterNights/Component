@@ -26,6 +26,8 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {DrawerNavigationComponent} from './components/drawerNavigation/DrawerNavigationComponent';
 import {DrawerCoolNavigationComponent} from './components/drawerNavigation/coolDrawer/DrawerCoolNavigationComponent';
 import {NavigationContainer} from '@react-navigation/native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import { DrawerWithStyle } from "./components/drawerNavigation/customDrawer/DrawerWithStyle";
 // import {FlatListComponent} from './components/FlatListComponent';
 
 // определение положения гаджета.
@@ -58,7 +60,7 @@ const App = () => {
     <View style={styles.container}>
       <GestureHandlerRootView style={{flex: 1}}>
         <NavigationContainer>
-          <DrawerCoolNavigationComponent />
+          <DrawerWithStyle />
         </NavigationContainer>
       </GestureHandlerRootView>
     </View>
