@@ -2,7 +2,7 @@ import React, {useLayoutEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useAppNavigation} from '../navigationTypes';
 import colors from '../../../config/colors';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {DrawerActions} from '@react-navigation/native';
 
 type SomePropsType = {};
@@ -26,24 +26,11 @@ export const Some = ({}: SomePropsType) => {
 
       headerRight: () => (
         <Icon.Button
-          name="ios-star-outline"
+          name="menu"
           size={25}
           backgroundColor={colors.danger}
-          // name="Save"
-          // size={25}
-          // style={{right: 20}}
           onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
         />
-
-        // <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-        //   <Item
-        //     title="Favorite"
-        //     iconName={isFav ? 'ios-star' : 'ios-star-outline'}
-        //     onPress={() => {
-        //       toggleFavoritesHandler(mealID);
-        //     }}
-        //   />
-        // </HeaderButtons>
       ),
     });
   }, [navigation]);

@@ -25,7 +25,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 // import {ImageInputComponent} from './components/imageInput/ImageInputComponent';
 import {DrawerNavigationComponent} from './components/drawerNavigation/DrawerNavigationComponent';
 import {DrawerCoolNavigationComponent} from './components/drawerNavigation/coolDrawer/DrawerCoolNavigationComponent';
-import { NavigationContainer } from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 // import {FlatListComponent} from './components/FlatListComponent';
 
 // определение положения гаджета.
