@@ -1,6 +1,6 @@
 import React from 'react';
 import {useFormikContext} from 'formik';
-import {CustomButton} from '../Input/CustomButton';
+import {CustomButton} from '../buttons/CustomButton';
 
 type SubmitButtonPropsType = {
   title: string;

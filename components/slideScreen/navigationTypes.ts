@@ -1,6 +1,7 @@
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
+
 export type RootStackParamList = {
   // типизация Stack, чтобы не ошибиться с экранами
   Main: undefined;
@@ -8,6 +9,10 @@ export type RootStackParamList = {
   SlideToDown: undefined;
   SlideToRight: undefined;
   SlideToLeft: undefined;
+  // для навигации ловгин скрин
+  SplashScreen: undefined;
+  SignUpScreen: undefined;
+  SignInScreen: undefined;
 };
 
 export type NavigationUseType = NavigationProp<RootStackParamList>;

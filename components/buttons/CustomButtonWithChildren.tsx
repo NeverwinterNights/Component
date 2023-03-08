@@ -6,7 +6,6 @@ import {
   Pressable,
   StyleProp,
   StyleSheet,
-  Text,
   TextStyle,
   ViewStyle,
 } from 'react-native';
@@ -20,18 +19,20 @@ type CustomButtonPropsType = {
   labelStyle?: StyleProp<TextStyle>;
   disable?: boolean;
   loading?: boolean;
+  contentWidth?: boolean;
 };
-const animated = new Animated.Value(1);
 
-export const CustomButton = ({
+export const CustomButtonWithChildren = ({
   children,
   onPress,
   disable = false,
   styleButton,
-  labelStyle,
+  contentWidth,
   loading,
   color = 'primary',
 }: CustomButtonPropsType) => {
+  const animated = new Animated.Value(1);
+
   const fadeIn = () => {
     Animated.timing(animated, {
       toValue: 0.1,
@@ -51,7 +52,7 @@ export const CustomButton = ({
 
   return (
     <Pressable
-      style={styles.container}
+      style={contentWidth ? null : styles.container}
       onPressIn={fadeIn}
       onPressOut={fadeOut}
       disabled={disable}
@@ -63,9 +64,7 @@ export const CustomButton = ({
           styleButton,
           {opacity: animated},
         ]}>
-        <Text style={[styles.text, labelStyle]}>
-          {loading ? <ActivityIndicator /> : children}
-        </Text>
+        {loading ? <ActivityIndicator /> : children}
       </Animated.View>
     </Pressable>
   );

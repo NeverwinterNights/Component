@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {AppInput} from '../Input/AppInput';
 import {Screen} from '../Screen';
-import {CustomButton} from '../Input/CustomButton';
+import {CustomButton} from '../buttons/CustomButton';
 
 export const Login = () => {
   const [email, setEmail] = useState('');

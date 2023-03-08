@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Alert, StyleSheet, Text, View} from 'react-native';
 import {AppInput} from '../Input/AppInput';
-import {CustomButton} from '../Input/CustomButton';
+import {CustomButton} from '../buttons/CustomButton';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 

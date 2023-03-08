@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {CustomButton} from './CustomButton';
+import {CustomButton} from '../buttons/CustomButton';
 
 type AppInputPropsType = {
   setText?: (text: string) => void;

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {StatusBar, StyleSheet, View} from 'react-native';
-import {CustomButton} from '../Input/CustomButton';
+import {CustomButton} from '../buttons/CustomButton';
 import ImagePicker from 'react-native-image-crop-picker';
 
 type ImagePickerPropsType = {};

@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StatusBar, StyleSheet, View} from 'react-native';
 // import {SwipeAndDelete} from './components/Swipe/SwipeAndDelete';
 // import ListItemDeleteAction from './components/Swipe/ListemDeleteAction';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -27,7 +27,12 @@ import {DrawerNavigationComponent} from './components/drawerNavigation/DrawerNav
 import {DrawerCoolNavigationComponent} from './components/drawerNavigation/coolDrawer/DrawerCoolNavigationComponent';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import { DrawerWithStyle } from "./components/drawerNavigation/customDrawer/DrawerWithStyle";
+import {DrawerWithStyle} from './components/drawerNavigation/customDrawer/DrawerWithStyle';
+import {Location} from './components/Location';
+import {RootStackScreenLogin} from './components/loginScreen/RootStackScreenLogin';
+import {AuthPlusMainRoutes} from './components/auth+main/AuthPlusMainRoutes';
+import {AuthProvider} from './components/auth+main/context';
+import {AuthPlusMainRoutesPlusUseReducer} from './components/auth+main/AuthPlusMainRoutesPlusUseReducer';
 // import {FlatListComponent} from './components/FlatListComponent';
 
 // определение положения гаджета.
@@ -55,22 +60,29 @@ const App = () => {
   // useEffect(() => {
   //   getData();
   // });
-
+  //AuthProvider нужен для получения данных их контекста
   return (
-    <View style={styles.container}>
-      <GestureHandlerRootView style={{flex: 1}}>
-        <NavigationContainer>
-          <DrawerWithStyle />
-        </NavigationContainer>
-      </GestureHandlerRootView>
-    </View>
+    <AuthProvider>
+      <View style={styles.container}>
+        <GestureHandlerRootView style={{flex: 1}}>
+          {/*<StatusBar backgroundColor={'#009387'} barStyle={'dark-content'} />*/}
+          <StatusBar backgroundColor={'#fff'} barStyle={'dark-content'} />
+          <NavigationContainer>
+            {/*<DrawerWithStyle />*/}
+            {/*<RootStackScreenLogin />*/}
+            {/*<AuthPlusMainRoutes />*/}
+            <AuthPlusMainRoutesPlusUseReducer />
+          </NavigationContainer>
+        </GestureHandlerRootView>
+      </View>
+    </AuthProvider>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
   },
 });
 

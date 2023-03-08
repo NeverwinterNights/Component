@@ -45,16 +45,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#e0dada',
     borderRadius: 25,
     flexDirection: 'row',
-
+    flex: 1, // под вопросом
     padding: 10,
     marginVertical: 10,
     alignItems: 'center',
   },
   textInput: {
-    fontSize: 18,
-    color: 'black',
-    fontFamily: 'Roboto',
-    flex: 1,
+    // fontSize: 18,
+    // color: 'black',
+    // fontFamily: 'Roboto',
+    // flex: 1,
   },
   icon: {
     marginRight: 10,

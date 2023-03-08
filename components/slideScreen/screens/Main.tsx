@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {CustomButton} from '../../Input/CustomButton';
+import {CustomButton} from '../../buttons/CustomButton';
 import {useAppNavigation} from '../navigationTypes';
 
 type MainPropsType = {};
