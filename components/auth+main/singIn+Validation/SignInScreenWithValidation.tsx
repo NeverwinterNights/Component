@@ -1,16 +1,19 @@
 import React, {useContext, useState} from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Alert, Pressable, StyleSheet, Text, View} from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-import {AppInput} from '../Input/AppInput';
+import {AppInput} from '../../Input/AppInput';
 import * as Animatable from 'react-native-animatable';
-import {CustomButtonWithChildren} from '../buttons/CustomButtonWithChildren';
-import {useAppNavigation} from '../slideScreen/navigationTypes';
-import {AuthContext} from '../auth+main/context';
-import {AuthContextUseReducer} from '../auth+main/AuthPlusMainRoutesPlusUseReducer';
-import { useTheme } from "@react-navigation/native";
+import {CustomButtonWithChildren} from '../../buttons/CustomButtonWithChildren';
+import {useAppNavigation} from '../../slideScreen/navigationTypes';
+import {AuthContext} from '../../auth+main/context';
+import {AuthContextUseReducer} from '../../auth+main/AuthPlusMainRoutesPlusUseReducer';
+
+import Users from '../../../models/users';
+import {AuthContextUseReducerPlusValidation} from './AuthPlusMainRoutesPlusUseReducerPlusValidation';
+import {useTheme} from '@react-navigation/native';
 
 type SignInScreenPropsType = {};
 type DataType = {
@@ -18,41 +21,56 @@ type DataType = {
   password: string;
   check_textInputChange: boolean;
   secureTextEntry: boolean;
+  isValidUser: boolean;
+  isValidPassword: boolean;
 };
 
-export const SignInScreen = ({}: SignInScreenPropsType) => {
+export const SignInScreenWithValidation = ({}: SignInScreenPropsType) => {
   const navigation = useAppNavigation();
-  const {signIn} = useContext(AuthContext);
-  const {signInUseReducer} = useContext(AuthContextUseReducer);
+  // const {signIn} = useContext(AuthContext);
+  // const {signInUseReducer} = useContext(AuthContextUseReducer);
+  const {signInUseReducer} = useContext(AuthContextUseReducerPlusValidation);
   const {colors} = useTheme();
-
 
   const [data, setData] = useState<DataType>({
     username: '',
     password: '',
     check_textInputChange: false,
     secureTextEntry: true,
+    isValidUser: true,
+    isValidPassword: true,
   });
   const textInputChange = (value: string) => {
-    if (value.length !== 0) {
+    if (value.trim().length >= 4) {
       setData({
         ...data,
         username: value,
         check_textInputChange: true,
+        isValidUser: true,
       });
     } else {
       setData({
         ...data,
         username: value,
         check_textInputChange: false,
+        isValidUser: false,
       });
     }
   };
   const handlePassword = (value: string) => {
-    setData({
-      ...data,
-      password: value,
-    });
+    if (value.trim().length >= 8) {
+      setData({
+        ...data,
+        password: value,
+        isValidPassword: true,
+      });
+    } else {
+      setData({
+        ...data,
+        password: value,
+        isValidPassword: false,
+      });
+    }
   };
   const updateSecureTextEntry = () => {
     setData({
@@ -61,57 +79,130 @@ export const SignInScreen = ({}: SignInScreenPropsType) => {
     });
   };
 
-  const signInUseReducerHandler = () => {
-    signInUseReducer(data.username, data.password);
+  // const signInUseReducerHandler = () => {
+  //   signInUseReducer(data.username, data.password);
+  // };
+  const handleValidUser = (value: string) => {
+    // if (value.trim().length >= 4) {
+    //   setData({
+    //     ...data,
+    //     isValidUser: true,
+    //   });
+    // } else {
+    //   setData({
+    //     ...data,
+    //     isValidUser: false,
+    //   });
+    // }
   };
 
   const loginHandler = () => {
-    signInUseReducer(data.username, data.password);
+    const foundUser = Users.filter(
+      item =>
+        data.username === item.username && data.password === item.password,
+    );
+
+    if (data.username.length === 0 || data.password.length === 0) {
+      Alert.alert('Invalid Data', 'User name or Password is empty', [
+        {text: 'Ok'},
+      ]);
+      return;
+    }
+
+    if (foundUser.length === 0) {
+      Alert.alert('Invalid User', 'User name or Password is not valid', [
+        {text: 'Ok'},
+      ]);
+      return;
+    }
+    signInUseReducer(foundUser);
   };
+
+  console.log('value', colors.background);
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.text_header}>Welcome!</Text>
       </View>
-      <Animatable.View style={styles.footer} animation={'fadeInUpBig'}>
-        <Text style={styles.text_footer}>Username</Text>
+      <Animatable.View
+        style={[styles.footer, {backgroundColor: colors.background}]}
+        animation={'fadeInUpBig'}>
+        <Text style={[styles.text_footer, {color: colors.text}]}>Username</Text>
         <View style={styles.action}>
-          <FontAwesome name="user-o" color={'#05375a'} size={20} />
+          <FontAwesome name="user-o" color={colors.text} size={20} />
           <AppInput
+            placeholderTextColor={colors.text}
             placeholder={'Your Username'}
-            styleInput={styles.inputNullable}
-            styleText={styles.textInput}
+            styleInput={[
+              styles.inputNullable,
+              {
+                backgroundColor:
+                  colors.background === '#333333' ? 'transparent' : '',
+              },
+            ]}
+            styleText={[styles.textInput, {color: colors.text}]}
             onChangeText={textInputChange}
+            onEndEditing={e => handleValidUser(e.nativeEvent.text)} // валид по завершение печатания
           />
           {data.check_textInputChange ? (
             <Animatable.View animation={'bounceIn'}>
-              <Feather name="check-circle" color={'green'} size={20} />
+              <Feather name="check-circle" color={colors.text} size={20} />
             </Animatable.View>
           ) : null}
         </View>
-        <Text style={[styles.text_footer]}>Password</Text>
-        <View style={styles.action}>
-          <Feather name="lock" color={'#05375a'} size={20} />
+        {data.isValidUser ? null : (
+          <Animatable.View
+            animation={'fadeInLeft'}
+            style={{marginTop: 5}}
+            duration={500}>
+            <Text style={styles.errorMsg}>
+              Username must be 4 characters long
+            </Text>
+          </Animatable.View>
+        )}
+        <Text style={[styles.text_footer, {color: colors.text, marginTop: 10}]}>
+          Password
+        </Text>
+        <View style={[styles.action]}>
+          <Feather name="lock" color={colors.text} size={20} />
           <AppInput
+            placeholderTextColor={colors.text}
             secureTextEntry={data.secureTextEntry}
             placeholder={'Your Password'}
-            styleInput={styles.inputNullable}
-            styleText={styles.textInput}
+            styleInput={[
+              styles.inputNullable,
+              {
+                backgroundColor:
+                  colors.background === '#333333' ? 'transparent' : '',
+              },
+            ]}
+            styleText={[styles.textInput, {color: colors.text}]}
             onChangeText={handlePassword}
           />
           <Pressable onPress={updateSecureTextEntry}>
             <Feather
               name={data.secureTextEntry ? 'eye-off' : 'eye'}
-              color={'grey'}
+              color={colors.text}
               size={20}
             />
           </Pressable>
         </View>
+        {data.isValidPassword ? null : (
+          <Animatable.View
+            animation={'fadeInLeft'}
+            style={{marginTop: 5}}
+            duration={500}>
+            <Text style={styles.errorMsg}>
+              Password must be 8 characters long
+            </Text>
+          </Animatable.View>
+        )}
         <View style={styles.button}>
           <CustomButtonWithChildren
             // onPress={() => signIn()}
-            onPress={signInUseReducerHandler}
+            // onPress={signInUseReducerHandler}
+            onPress={loginHandler}
             styleButton={styles.buttonNull}>
             <LinearGradient
               style={styles.signIn}
@@ -177,10 +268,9 @@ const styles = StyleSheet.create({
   },
   action: {
     flexDirection: 'row',
-    marginTop: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#f2f2f2',
-    paddingBottom: 5,
+    // paddingBottom: 5,
 
     alignItems: 'center',
   },
@@ -203,7 +293,7 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: 30,
   },
   signIn: {
     width: '100%',

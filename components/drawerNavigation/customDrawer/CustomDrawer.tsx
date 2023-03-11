@@ -14,21 +14,29 @@ import {
   Text,
   TouchableRipple,
   Switch,
+  useTheme,
 } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import {AuthContext} from '../../auth+main/context';
 import {AuthContextUseReducer} from '../../auth+main/AuthPlusMainRoutesPlusUseReducer';
+import {AuthContextUseReducerPlusValidation} from '../../auth+main/singIn+Validation/AuthPlusMainRoutesPlusUseReducerPlusValidation';
 
 export const CustomDrawer = (props: DrawerContentComponentProps) => {
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
-  const {signOut} = useContext(AuthContext);
-  const {signOutUseReducer} = useContext(AuthContextUseReducer);
+  // const [isDarkTheme, setIsDarkTheme] = useState(false); убираем для пробрасывания темы переносим в апп
+  // для темы получаем useTheme
+  const paperTheme = useTheme();
 
-  const toggleTheme = () => {
-    setIsDarkTheme(!isDarkTheme);
-  };
-  console.log('signOutUseReducer', signOutUseReducer);
+  const {signOut} = useContext(AuthContext);
+  // const {signOutUseReducer} = useContext(AuthContextUseReducer);
+
+  const {signOutUseReducer, toggleTheme} = useContext(
+    AuthContextUseReducerPlusValidation,
+  );
+
+  // const toggleTheme = () => {
+  //   setIsDarkTheme(!isDarkTheme);
+  // };
   return (
     <View style={styles.drawerContent}>
       <DrawerContentScrollView {...props}>
@@ -112,12 +120,15 @@ export const CustomDrawer = (props: DrawerContentComponentProps) => {
               onPress={() => console.log('value')}
             />
           </Drawer.Section>
-          <Drawer.Section title="Preferences">
+          <Drawer.Section>
+            <Caption style={[styles.preference, {fontSize: 14}]}>
+              Preferences
+            </Caption>
             <TouchableRipple onPress={toggleTheme}>
               <View style={[styles.preference, {alignItems: 'center'}]}>
                 <Text>Dark Theme</Text>
                 <View pointerEvents={'none'}>
-                  <Switch value={isDarkTheme} />
+                  <Switch value={paperTheme.dark} />
                 </View>
               </View>
             </TouchableRipple>
@@ -127,6 +138,7 @@ export const CustomDrawer = (props: DrawerContentComponentProps) => {
       <Drawer.Section style={styles.bottomDrawerSection}>
         <DrawerItem
           // onPress={() => signOut()}  удалено для получения из UseReducer
+          // onPress={() => signOutUseReducer()}
           onPress={() => signOutUseReducer()}
           icon={({color, size}) => (
             <MaterialCommunityIcons

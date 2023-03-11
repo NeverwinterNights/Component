@@ -33,6 +33,8 @@ import {RootStackScreenLogin} from './components/loginScreen/RootStackScreenLogi
 import {AuthPlusMainRoutes} from './components/auth+main/AuthPlusMainRoutes';
 import {AuthProvider} from './components/auth+main/context';
 import {AuthPlusMainRoutesPlusUseReducer} from './components/auth+main/AuthPlusMainRoutesPlusUseReducer';
+import {AuthPlusMainRoutesPlusUseReducerPlusValidation} from './components/auth+main/singIn+Validation/AuthPlusMainRoutesPlusUseReducerPlusValidation';
+
 // import {FlatListComponent} from './components/FlatListComponent';
 
 // определение положения гаджета.
@@ -61,18 +63,19 @@ const App = () => {
   //   getData();
   // });
   //AuthProvider нужен для получения данных их контекста
+
   return (
     <AuthProvider>
       <View style={styles.container}>
         <GestureHandlerRootView style={{flex: 1}}>
           {/*<StatusBar backgroundColor={'#009387'} barStyle={'dark-content'} />*/}
           <StatusBar backgroundColor={'#fff'} barStyle={'dark-content'} />
-          <NavigationContainer>
-            {/*<DrawerWithStyle />*/}
-            {/*<RootStackScreenLogin />*/}
-            {/*<AuthPlusMainRoutes />*/}
-            <AuthPlusMainRoutesPlusUseReducer />
-          </NavigationContainer>
+          {/*<NavigationContainer theme={NavigationDarkTheme}>*/}
+          {/*<DrawerWithStyle />*/}
+          {/*<RootStackScreenLogin />*/}
+          {/*<AuthPlusMainRoutes />*/}
+          <AuthPlusMainRoutesPlusUseReducerPlusValidation />
+          {/*</NavigationContainer>*/}
         </GestureHandlerRootView>
       </View>
     </AuthProvider>

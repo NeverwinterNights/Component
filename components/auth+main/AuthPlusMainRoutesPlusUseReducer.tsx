@@ -1,9 +1,11 @@
-import React, {createContext, useMemo, useReducer} from 'react';
+import React, {createContext, useEffect, useMemo, useReducer} from 'react';
 import {CustomDrawer} from '../drawerNavigation/customDrawer/CustomDrawer';
 import {CustomTabNavigationComponent} from '../coustomTabNavigation/CustomTabNavigationComponent';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {ActivityIndicator, View} from 'react-native';
 import {RootStackScreenLogin} from '../loginScreen/RootStackScreenLogin';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type InitialStateType = {
   isLoading: boolean;
@@ -27,9 +29,9 @@ export const AuthPlusMainRoutesPlusUseReducer = () => {
   // const {isLoading, userToken} = useContext(AuthContext);
 
   const initialState: InitialStateType = {
-    isLoading: false,
+    isLoading: true,
     userName: null,
-    userToken: 'ddd',
+    userToken: null,
   };
 
   const loginReducer = (prevState: InitialStateType, action: any) => {
@@ -67,34 +69,45 @@ export const AuthPlusMainRoutesPlusUseReducer = () => {
 
   const [loginState, dispatch] = useReducer(loginReducer, initialState);
 
-  // const signInUseReducer = (userName: string, password: string) => {
-  //   if (userName === 'user' && password === 'user') {
-  //     dispatch({type: 'LOGIN', id: userName, userToken: 'aaa'});
-  //   }
-  // };
-  // const signOutUseReducer = () => {
-  //   dispatch({type: 'LOGOUT'});
-  // };
-  // const signUpUseReducer = () => {
-  //   dispatch({type: 'REGISTER'});
-  // };
-  console.log('value');
   const authContextWithUseReducer = useMemo(
     () => ({
-      signInUseReducer: (userName: string, password: string) => {
-        if (userName === 'user' && password === 'user') {
-          dispatch({type: 'LOGIN', id: userName, userToken: 'aaa'});
+      signInUseReducer: async (userName: string, password: string) => {
+        if (userName === 'User' && password === 'user') {
+          try {
+            await AsyncStorage.setItem('userToken', loginState.userToken);
+          } catch (error) {
+            console.log('error', error);
+          }
+          dispatch({type: 'LOGIN', id: userName, token: 'aaa'});
         }
       },
-      signOutUseReducer: () => {
+      signOutUseReducer: async () => {
+        try {
+          await AsyncStorage.removeItem('userToken');
+        } catch (error) {
+          console.log('error', error);
+        }
         dispatch({type: 'LOGOUT'});
       },
       signUpUseReducer: () => {
         dispatch({type: 'REGISTER'});
       },
     }),
-    [],
+    [loginState.userToken],
   );
+
+  useEffect(() => {
+    setTimeout(async () => {
+      let userToken;
+      userToken = null;
+      try {
+        userToken = await AsyncStorage.getItem('userToken');
+      } catch (error) {
+        console.log('error', error);
+      }
+      dispatch({type: 'RETRIEVE_TOKEN', token: userToken});
+    }, 1000);
+  }, []);
 
   if (loginState.isLoading) {
     return (

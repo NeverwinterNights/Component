@@ -7,6 +7,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {useAppNavigation} from '../slideScreen/navigationTypes';
 import {CustomButton} from '../buttons/CustomButton';
+import {useTheme} from '@react-navigation/native';
 
 type SplashScreenPropsType = {};
 
@@ -16,6 +17,8 @@ const logo = height * 0.28;
 // ставим yarn add react-native-animatable для анимации
 
 export const SplashScreen = ({}: SplashScreenPropsType) => {
+  const {colors} = useTheme();
+
   const navigation = useAppNavigation();
 
   return (
@@ -29,8 +32,17 @@ export const SplashScreen = ({}: SplashScreenPropsType) => {
           resizeMode={'stretch'}
         />
       </View>
-      <Animatable.View animation={'fadeInUpBig'} style={styles.footer}>
-        <Text style={styles.title}>Stay Connected with me and everyone</Text>
+      <Animatable.View
+        animation={'fadeInUpBig'}
+        style={[
+          styles.footer,
+          {
+            backgroundColor: colors.background,
+          },
+        ]}>
+        <Text style={[styles.title, {color: colors.text}]}>
+          Stay Connected with me and everyone
+        </Text>
         <Text style={styles.text}>Sing In</Text>
         <View style={styles.button}>
           <CustomButton

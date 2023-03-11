@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useContext, useState } from "react";
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
@@ -8,6 +8,7 @@ import {AppInput} from '../Input/AppInput';
 import * as Animatable from 'react-native-animatable';
 import {CustomButtonWithChildren} from '../buttons/CustomButtonWithChildren';
 import {useAppNavigation} from '../slideScreen/navigationTypes';
+import { AuthContextUseReducer } from "../auth+main/AuthPlusMainRoutesPlusUseReducer";
 
 type DataRegisterType = {
   email: string;
@@ -20,6 +21,7 @@ type DataRegisterType = {
 
 export const SignUpScreen = () => {
   const navigation = useAppNavigation();
+  const {signUpUseReducer} = useContext(AuthContextUseReducer);
 
   const [data, setData] = useState<DataRegisterType>({
     email: '',

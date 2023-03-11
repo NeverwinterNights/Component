@@ -1,7 +1,6 @@
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-
 export type RootStackParamList = {
   // типизация Stack, чтобы не ошибиться с экранами
   Main: undefined;
