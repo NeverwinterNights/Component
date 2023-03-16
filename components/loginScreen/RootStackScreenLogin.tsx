@@ -1,7 +1,6 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {SplashScreen} from './SplashScreen';
-import {SignInScreen} from './SignInScreen';
 import {SignUpScreen} from './SignUpScreen';
 import {RootStackParamList} from '../slideScreen/navigationTypes';
 import {SignInScreenWithValidation} from '../auth+main/singIn+Validation/SignInScreenWithValidation';

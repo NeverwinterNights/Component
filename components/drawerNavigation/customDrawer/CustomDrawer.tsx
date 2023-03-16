@@ -42,7 +42,7 @@ export const CustomDrawer = (props: DrawerContentComponentProps) => {
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
           <View style={styles.userInfoSection}>
-            <View style={{flexDirection: 'row', marginBottom: 15}}>
+            <View style={{flexDirection: 'row', marginVertical: 15}}>
               <Avatar.Image
                 source={{uri: 'https://b1.filmpro.ru/c/553369.700xp.jpg'}}
                 size={50}

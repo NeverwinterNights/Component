@@ -21,11 +21,11 @@ import {
 } from '@react-navigation/native';
 
 import {
-  Provider,
   DefaultTheme as PaperDefaultTheme,
   MD3DarkTheme,
+  Provider,
 } from 'react-native-paper';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {RootDrawerAuthPlusMainRoutesPlusUseReducerPlusValidationParamList} from '../../coustomTabNavigation/navigationTypes';
 
 type InitialStateType = {
   isLoading: boolean;
@@ -40,7 +40,8 @@ type AuthContextUseReducerType = {
   toggleTheme: () => void;
 };
 
-const Drawer = createDrawerNavigator();
+const Drawer =
+  createDrawerNavigator<RootDrawerAuthPlusMainRoutesPlusUseReducerPlusValidationParamList>();
 
 export const AuthContextUseReducerPlusValidation =
   createContext<AuthContextUseReducerType>({} as AuthContextUseReducerType);
@@ -179,25 +180,21 @@ export const AuthPlusMainRoutesPlusUseReducerPlusValidation = () => {
                 headerTitle: '',
               }}
               drawerContent={props => <CustomDrawer {...props} />}>
-              {/*<Drawer.Screen*/}
-              {/*  name="Main"*/}
-              {/*  component={CustomTabNavigationComponent}*/}
-              {/*/>*/}
               <Drawer.Screen
                 name="Profile"
                 component={CustomTabNavigationComponent}
-                // options={{headerShown: false}}
-                options={
-                  {
-                    // drawerIcon: ({focused, color, size}) => (
-                    //   <MaterialCommunityIcons
-                    //     name="menu"
-                    //     size={50}
-                    //     color={'red'}
-                    //   />
-                    // ),
-                  }
-                }
+                options={{headerShown: false}}
+                // options={
+                //   {
+                //     // drawerIcon: ({focused, color, size}) => (
+                //     //   <MaterialCommunityIcons
+                //     //     name="menu"
+                //     //     size={50}
+                //     //     color={'red'}
+                //     //   />
+                //     // ),
+                //   }
+                // }
               />
             </Drawer.Navigator>
           ) : (

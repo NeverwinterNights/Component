@@ -5,9 +5,10 @@ import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import {useAppNavigation} from '../slideScreen/navigationTypes';
+
 import {CustomButton} from '../buttons/CustomButton';
 import {useTheme} from '@react-navigation/native';
+import { useAppNavigation } from "../slideScreen/navigationTypes";
 
 type SplashScreenPropsType = {};
 

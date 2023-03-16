@@ -3,14 +3,13 @@ import {
   NavigatorScreenParams,
   useNavigation,
 } from '@react-navigation/native';
-import { Some } from "./screens/Some";
 
 export type RootDrawerParamList = {
   // типизация Stack, чтобы не ошибиться с экранами
   Home: undefined;
   New: undefined;
   Notification: undefined;
-  User: undefined;
+  UserNavigation: NavigatorScreenParams<UserStackParamList>;
   Search: undefined;
 };
 
@@ -19,17 +18,30 @@ export type RootDrawerParamList = {
 ///////////////////////////////
 // DrawerCoolNavigationComponent types
 
-export type ProfileStackParamList = {
-  Home: undefined;
-  Contact: {id: number; name: string}; // это значит что такие пропсы принимает этот скрин
-};
+// export type ProfileStackParamList = {
+//   Home: undefined;
+//   Contact: {id: number; name: string}; // это значит что такие пропсы принимает этот скрин
+//   // UserNavigation: NavigatorScreenParams<UserStackParamList>;
+// };
 
-export type RootCoolDrawerParamList = {
+// export type RootCoolDrawerParamList = {
+//   // типизация Stack, чтобы не ошибиться с экранами
+//   Home: undefined;
+//   Some: undefined;
+//   Profile: NavigatorScreenParams<ProfileStackParamList>;
+// };
+
+export type UserStackParamList = {
   // типизация Stack, чтобы не ошибиться с экранами
-  Home: undefined;
-  Some: undefined;
-  Profile: NavigatorScreenParams<ProfileStackParamList>;
+  User: undefined;
+  EditProfileScreen: undefined;
 };
 
-export type NavigationUserNavType = NavigationProp<RootCoolDrawerParamList>;
+export type RootDrawerAuthPlusMainRoutesPlusUseReducerPlusValidationParamList =
+  {
+    Profile: NavigatorScreenParams<RootDrawerParamList>;
+  };
+
+export type NavigationUserNavType =
+  NavigationProp<RootDrawerAuthPlusMainRoutesPlusUseReducerPlusValidationParamList>;
 export const useAppNavigation = () => useNavigation<NavigationUserNavType>();

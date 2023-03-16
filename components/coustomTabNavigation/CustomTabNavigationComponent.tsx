@@ -1,18 +1,19 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Notification} from './screens/Notification';
-import {User} from './screens/User';
 import {Search} from './screens/Search';
 import {Home} from './screens/Home';
 import {New} from './screens/New';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import {CustomTabButton} from './CustomTabButton';
+import {UserNavigation} from '../drawerNavigation/customDrawer/UserNavigation';
+import {RootDrawerParamList} from './navigationTypes';
 
 type CustomTabNavigationComponentPropsType = {};
 // ставим yarn add @react-navigation/bottom-tabs
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<RootDrawerParamList>();
 
 export const CustomTabNavigationComponent =
   ({}: CustomTabNavigationComponentPropsType) => {
@@ -55,9 +56,11 @@ export const CustomTabNavigationComponent =
           }}
         />
         <Tab.Screen
-          name="User"
-          component={User}
+          name="UserNavigation"
+          component={UserNavigation}
           options={{
+            headerShown: false,
+            title: 'User',
             tabBarIcon: ({size, color}) => (
               <Feather name="user" size={size} color={color} />
             ),

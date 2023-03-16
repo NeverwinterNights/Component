@@ -6,7 +6,6 @@ export type UserType = {
   userToken: string;
 };
 
-
 export default [
   {
     id: 1,

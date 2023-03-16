@@ -7,10 +7,10 @@ import Feather from 'react-native-vector-icons/Feather';
 import {AppInput} from '../Input/AppInput';
 import * as Animatable from 'react-native-animatable';
 import {CustomButtonWithChildren} from '../buttons/CustomButtonWithChildren';
-import {useAppNavigation} from '../slideScreen/navigationTypes';
 import {AuthContext} from '../auth+main/context';
 import {AuthContextUseReducer} from '../auth+main/AuthPlusMainRoutesPlusUseReducer';
-import { useTheme } from "@react-navigation/native";
+import {useTheme} from '@react-navigation/native';
+import {useAppNavigation} from '../coustomTabNavigation/navigationTypes';
 
 type SignInScreenPropsType = {};
 type DataType = {
@@ -25,7 +25,6 @@ export const SignInScreen = ({}: SignInScreenPropsType) => {
   const {signIn} = useContext(AuthContext);
   const {signInUseReducer} = useContext(AuthContextUseReducer);
   const {colors} = useTheme();
-
 
   const [data, setData] = useState<DataType>({
     username: '',
