@@ -3,15 +3,33 @@ import {
   NavigatorScreenParams,
   useNavigation,
 } from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {dataGeoType} from '../../models/mapData';
 
 export type RootDrawerParamList = {
   // типизация Stack, чтобы не ошибиться с экранами
-  Home: undefined;
+  HomeNavigation: NavigatorScreenParams<HomeStackParamList>;
   New: undefined;
   Notification: undefined;
   UserNavigation: NavigatorScreenParams<UserStackParamList>;
   Search: undefined;
 };
+
+export type HomeStackParamList = {
+  // типизация Stack, чтобы не ошибиться с экранами
+  Home: undefined;
+  CardListScreen: {title: string};
+  CardDetails: {item: dataGeoType};
+};
+
+export type CardListScreenProps = NativeStackScreenProps<
+  HomeStackParamList,
+  'CardListScreen'
+>;
+export type CardDetailsScreenProps = NativeStackScreenProps<
+  HomeStackParamList,
+  'CardDetails'
+>;
 
 // export type NavigationUserNavType = NavigationProp<RootDrawerParamList>;
 // export const useAppNavigation = () => useNavigation<NavigationUserNavType>(); // позволяет типизировать навигейшен в комп

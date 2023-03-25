@@ -25,7 +25,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 // import {ImageInputComponent} from './components/imageInput/ImageInputComponent';
 import {DrawerNavigationComponent} from './components/drawerNavigation/DrawerNavigationComponent';
 import {DrawerCoolNavigationComponent} from './components/drawerNavigation/coolDrawer/DrawerCoolNavigationComponent';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useTheme} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {DrawerWithStyle} from './components/drawerNavigation/customDrawer/DrawerWithStyle';
 import {Location} from './components/Location';
@@ -34,6 +34,9 @@ import {AuthPlusMainRoutes} from './components/auth+main/AuthPlusMainRoutes';
 import {AuthProvider} from './components/auth+main/context';
 import {AuthPlusMainRoutesPlusUseReducer} from './components/auth+main/AuthPlusMainRoutesPlusUseReducer';
 import {AuthPlusMainRoutesPlusUseReducerPlusValidation} from './components/auth+main/singIn+Validation/AuthPlusMainRoutesPlusUseReducerPlusValidation';
+import {CustomButton} from './components/buttons/CustomButton';
+import {CustomHeader} from './components/header/CustomHeader';
+import {MainBottomSheet} from './components/bottonSheet/simple/MainBottomSheet';
 
 // import {FlatListComponent} from './components/FlatListComponent';
 
@@ -41,6 +44,8 @@ import {AuthPlusMainRoutesPlusUseReducerPlusValidation} from './components/auth+
 // ставим yarn add @react-native-community/hooks
 // забираем из hooks  хук   const orientation = useDeviceOrientation();
 const App = () => {
+  const {colors} = useTheme();
+
   //const orientation = useDeviceOrientation();
   // const handleDelete = () => {
   //   console.log('value');
@@ -69,12 +74,19 @@ const App = () => {
       <View style={styles.container}>
         <GestureHandlerRootView style={{flex: 1}}>
           {/*<StatusBar backgroundColor={'#009387'} barStyle={'dark-content'} />*/}
-          <StatusBar backgroundColor={'#fff'} barStyle={'dark-content'} />
+
           {/*<NavigationContainer theme={NavigationDarkTheme}>*/}
           {/*<DrawerWithStyle />*/}
           {/*<RootStackScreenLogin />*/}
           {/*<AuthPlusMainRoutes />*/}
           <AuthPlusMainRoutesPlusUseReducerPlusValidation />
+          {/*<MainBottomSheet/>*/}
+          {/*<CustomHeader*/}
+          {/*  color="black"*/}
+          {/*  onPress={() => console.log('value')}*/}
+          {/*  title="Edit Profile"*/}
+          {/*  name="arrow-left"*/}
+          {/*/>*/}
           {/*</NavigationContainer>*/}
         </GestureHandlerRootView>
       </View>

@@ -20,7 +20,7 @@ export const InputComponent = () => {
     setSavedInputValue(inputCurrentValue);
     setInputCurrentValue('');
   };
-  console.log('value', inputCurrentValue);
+
   return (
     <>
       <View style={{marginHorizontal: 20, flexDirection: 'row'}}>

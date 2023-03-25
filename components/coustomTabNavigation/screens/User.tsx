@@ -1,7 +1,7 @@
 import React, {useLayoutEffect} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StatusBar, StyleSheet, View} from 'react-native';
 import {useAppNavigation} from '../navigationTypes';
-import {DrawerActions} from '@react-navigation/native';
+import {DrawerActions, useTheme} from '@react-navigation/native';
 import {
   Avatar,
   Caption,
@@ -10,12 +10,17 @@ import {
   TouchableRipple,
 } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Share from 'react-native-share';
 
 type ProfilePropsType = {};
+
+// для боттом шита поделиться ставим yarn add react-native-share// импортим import Share from 'react-native-share';
+// далем функцию вызова
 
 export const User = ({}: ProfilePropsType) => {
   // для хедера
   const navigation = useAppNavigation();
+  const {colors} = useTheme();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -23,22 +28,22 @@ export const User = ({}: ProfilePropsType) => {
       headerTitleAlign: 'center',
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: '#fff',
+        backgroundColor: colors.background,
       },
-      headerTintColor: '#000',
+      headerTintColor: colors.text,
       headerLeft: () => (
         <Icon.Button
           name="menu"
-          color={'#000'}
+          color={colors.text}
           size={25}
-          backgroundColor={'#fff'}
+          backgroundColor={colors.background}
           onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
         />
       ),
       headerRight: () => (
         <Icon
           name="account-edit"
-          color={'#000'}
+          color={colors.text}
           size={25}
           // backgroundColor={'#fff'}
           // onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
@@ -55,10 +60,27 @@ export const User = ({}: ProfilePropsType) => {
         />
       ),
     });
-  }, [navigation]);
+  }, [colors.background, colors.text, navigation]);
+
+  const myShare = async () => {
+    const shareOptions = {
+      message: ' This is a test message',
+    };
+    try {
+      const ShareResponce = await Share.open(shareOptions);
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
 
   return (
     <View style={styles.container}>
+      <StatusBar
+        backgroundColor={colors.background}
+        barStyle={
+          colors.background === '#fff' ? 'dark-content' : 'light-content'
+        }
+      />
       <View style={styles.userInfoSection}>
         <View style={{flexDirection: 'row', marginTop: 15}}>
           <Avatar.Image
@@ -120,7 +142,7 @@ export const User = ({}: ProfilePropsType) => {
             <Text style={styles.menuItemText}>Payments</Text>
           </View>
         </TouchableRipple>
-        <TouchableRipple onPress={() => {}}>
+        <TouchableRipple onPress={myShare}>
           <View style={styles.menuItem}>
             <Icon name="share-outline" color={'#FF6347'} size={25} />
             <Text style={styles.menuItemText}>Tell Your Friends</Text>

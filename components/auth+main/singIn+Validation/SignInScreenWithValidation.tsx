@@ -118,7 +118,6 @@ export const SignInScreenWithValidation = ({}: SignInScreenPropsType) => {
     signInUseReducer(foundUser);
   };
 
-  console.log('value', colors.background);
 
   return (
     <View style={styles.container}>

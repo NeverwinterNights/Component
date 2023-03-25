@@ -1,51 +1,49 @@
-import React, {useLayoutEffect, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useLayoutEffect, useRef, useState} from 'react';
 import {
   ImageBackground,
   Platform,
   Pressable,
   StyleSheet,
-  Switch,
   Text,
   TextInput,
   TouchableOpacity,
   useWindowDimensions,
   View,
+  Dimensions,
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useTheme} from '@react-navigation/native';
-
-import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {useAppNavigation} from '../../navigationTypes';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {BottomSheet, BottomSheetRefPropsType} from './BottomSheet';
+import Animated, {
+  Extrapolate,
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue, withTiming,
+} from "react-native-reanimated";
+import {CustomHeader} from '../../../header/CustomHeader';
+import {Switch} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
-import CustomBackdrop from './CustomBackdrop';
-import {useAppNavigation} from '../navigationTypes';
+import {BottomSheetComponent} from '../../../bottonSheet/simple/BottomSheetComponent';
+
+const {height: HEIGTH, width: WIDTH} = Dimensions.get('screen');
+
+const BLA = -HEIGTH * 0.5;
 
 type EditProfileScreenPropsType = {};
 
 export const EditProfileScreen = ({}: EditProfileScreenPropsType) => {
   const navigation = useAppNavigation();
-  // const [isOpen, setIsOpen] = useState(false);
-
   const {colors} = useTheme();
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: 'Edit Profile',
-      headerTitleAlign: 'center',
-      headerShadowVisible: false,
-      headerStyle: {
-        backgroundColor: '#fff',
-      },
-      headerTintColor: '#000',
+      headerShown: false,
     });
   }, [navigation]);
-
-  const bottomSheetRef = useRef<BottomSheetModal>(null);
-
-  // variables
-  const snapPoints = useMemo(() => ['55%', '55%'], []);
-  // const snapPoints = useMemo(() => ['25%', '55%'], []);
 
   const [darkMode, setDarkMode] = useState(false);
   const [device, setDevice] = useState(false);
@@ -53,77 +51,60 @@ export const EditProfileScreen = ({}: EditProfileScreenPropsType) => {
 
   const {width} = useWindowDimensions();
 
-  const handleBottomSheetModal = () => {
-    bottomSheetRef.current?.present();
-    // setIsOpen(true);
+  const ref = useRef<BottomSheetRefPropsType>(null);
+  const handleBottomSheetModal = useCallback(() => {
+    const isActive = ref?.current?.isActive(); // для тогда по кнопке открытия
+    ref?.current?.scrollTo(BLA); // указывает на какую позицию открыть по клику
+    if (isActive) {
+      ref?.current?.scrollTo(0);
+    } else {
+      ref?.current?.scrollTo(BLA);
+    }
+  }, []);
+
+  const position = useSharedValue(0);
+  const darkFunc = (num: number) => {
+    position.value = num;
+  };
+
+  const rCoverDarkStyle = useAnimatedStyle(() => {
+    // для затемнения
+    const opacity = interpolate(
+      position.value,
+      [-400, -150],
+      [0.85, 0],
+      Extrapolate.CLAMP,
+    );
+    return {
+      opacity: opacity,
+      zIndex: opacity ? 0.85 : 0,
+      flex: 1,
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      backgroundColor: 'grey',
+    };
+  });
+
+  const closeBottomSheetComponent = () => {
+    ref?.current?.scrollTo(0);
+    position.value = withTiming(0);
   };
 
   return (
-    <BottomSheetModalProvider>
-      <View
-        style={[
-          styles.container,
-          // {backgroundColor: isOpen ? 'grey' : 'white'},
-        ]}>
-        <BottomSheetModal
-          enablePanDownToClose={true}
-          backdropComponent={CustomBackdrop}
-          ref={bottomSheetRef}
-          index={1}
-          backgroundStyle={{borderRadius: 50}}
-          // onDismiss={() => setIsOpen(false)}
-          snapPoints={snapPoints}>
-          <View style={styles.bottomSheet}>
-            {/*<View style={styles.header}>*/}
-            {/*  <View style={styles.panelHeader}>*/}
-            {/*    <View style={styles.panelHandle} />*/}
-            <Text style={[styles.sheetTitle, {marginBottom: 15}]}>
-              Dark Mode
-            </Text>
-            <View style={[styles.row]}>
-              <Text style={styles.sheetSubTitle}>Dark Mode</Text>
-              <Switch
-                onChange={() => setDarkMode(!darkMode)}
-                value={darkMode}
-              />
-            </View>
-            <View style={styles.row}>
-              <Text style={styles.sheetSubTitle}>Use Device Settings</Text>
-              <Switch onChange={() => setDevice(!device)} value={device} />
-            </View>
-            <Text style={styles.sheetDescription}>
-              Use Device SettingsUse Device SettingsUse Device SettingsUse
-              Device SettingsUse Device SettingsUse Device Settings
-            </Text>
-            <View
-              style={{
-                width: width,
-                borderBottomWidth: StyleSheet.hairlineWidth,
-                borderBottomColor: 'red',
-                marginVertical: 30,
-              }}
-            />
-            <Text style={[styles.sheetTitle, {width: '100%'}]}>Theme</Text>
-            <Pressable style={styles.row} onPress={() => setTheme('dim')}>
-              <Text style={styles.sheetSubTitle}>Dim</Text>
-              {theme === 'dim' ? (
-                <AntDesign name="checkcircle" color={'#4A98E9'} size={24} />
-              ) : (
-                <Entypo name="circle" color={'#56636F'} size={24} />
-              )}
-            </Pressable>
-            <Pressable style={styles.row} onPress={() => setTheme('LightsOut')}>
-              <Text style={styles.sheetSubTitle}>Lights Out</Text>
-              {theme === 'LightsOut' ? (
-                <AntDesign name="checkcircle" color={'#4A98E9'} size={24} />
-              ) : (
-                <Entypo name="circle" color={'#56636F'} size={24} />
-              )}
-            </Pressable>
-          </View>
-        </BottomSheetModal>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <View style={[styles.container]}>
+        <Animated.View style={[rCoverDarkStyle]} />
+        <CustomHeader
+          titleColor={colors.text}
+          backgroundColor={colors.background}
+          onPress={() => navigation.goBack()}
+          title="Edit Profile"
+          name="arrow-left"
+        />
         <View style={{margin: 20}}>
           <View style={{alignItems: 'center'}}>
+            {/*<TouchableOpacity onPress={handleBottomSheetModal}>*/}
             <TouchableOpacity onPress={handleBottomSheetModal}>
               <View
                 style={{
@@ -162,7 +143,13 @@ export const EditProfileScreen = ({}: EditProfileScreenPropsType) => {
                 </ImageBackground>
               </View>
             </TouchableOpacity>
-            <Text style={{fontSize: 18, fontWeight: 'bold', marginTop: 10}}>
+            <Text
+              style={{
+                fontSize: 18,
+                color: colors.text,
+                fontWeight: 'bold',
+                marginTop: 10,
+              }}>
               Pavel Cardash
             </Text>
           </View>
@@ -231,7 +218,53 @@ export const EditProfileScreen = ({}: EditProfileScreenPropsType) => {
           </TouchableOpacity>
         </View>
       </View>
-    </BottomSheetModalProvider>
+
+      <BottomSheet darkFunc={darkFunc} limit={BLA} ref={ref}>
+        <BottomSheetComponent
+          closeBottomSheetComponent={closeBottomSheetComponent}
+        />
+        {/*<View style={styles.bottomSheet}>*/}
+        {/*  <Text style={[styles.sheetTitle, {marginBottom: 15}]}>Dark Mode</Text>*/}
+        {/*  <View style={[styles.row]}>*/}
+        {/*    <Text style={styles.sheetSubTitle}>Dark Mode</Text>*/}
+        {/*    <Switch onChange={() => setDarkMode(!darkMode)} value={darkMode} />*/}
+        {/*  </View>*/}
+        {/*  <View style={styles.row}>*/}
+        {/*    <Text style={styles.sheetSubTitle}>Use Device Settings</Text>*/}
+        {/*    <Switch onChange={() => setDevice(!device)} value={device} />*/}
+        {/*  </View>*/}
+        {/*  <Text style={styles.sheetDescription}>*/}
+        {/*    Use Device SettingsUse Device SettingsUse Device SettingsUse Device*/}
+        {/*    SettingsUse Device SettingsUse Device Settings*/}
+        {/*  </Text>*/}
+        {/*  <View*/}
+        {/*    style={{*/}
+        {/*      width: width,*/}
+        {/*      borderBottomWidth: StyleSheet.hairlineWidth,*/}
+        {/*      borderBottomColor: 'red',*/}
+        {/*      marginVertical: 30,*/}
+        {/*    }}*/}
+        {/*  />*/}
+        {/*  <Text style={[styles.sheetTitle, {width: '100%'}]}>Theme</Text>*/}
+        {/*  <Pressable style={styles.row} onPress={() => setTheme('dim')}>*/}
+        {/*    <Text style={styles.sheetSubTitle}>Dim</Text>*/}
+        {/*    {theme === 'dim' ? (*/}
+        {/*      <AntDesign name="checkcircle" color={'#4A98E9'} size={24} />*/}
+        {/*    ) : (*/}
+        {/*      <Entypo name="circle" color={'#56636F'} size={24} />*/}
+        {/*    )}*/}
+        {/*  </Pressable>*/}
+        {/*  <Pressable style={styles.row} onPress={() => setTheme('LightsOut')}>*/}
+        {/*    <Text style={styles.sheetSubTitle}>Lights Out</Text>*/}
+        {/*    {theme === 'LightsOut' ? (*/}
+        {/*      <AntDesign name="checkcircle" color={'#4A98E9'} size={24} />*/}
+        {/*    ) : (*/}
+        {/*      <Entypo name="circle" color={'#56636F'} size={24} />*/}
+        {/*    )}*/}
+        {/*  </Pressable>*/}
+        {/*</View>*/}
+      </BottomSheet>
+    </GestureHandlerRootView>
   );
 };
 
@@ -266,9 +299,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     paddingHorizontal: 15,
-    // backgroundColor: 'green',
-    // borderTopRightRadius: 25,
-    // borderTopLeftRadius: 25,
   },
   commandButton: {
     padding: 15,
@@ -281,12 +311,6 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#FFFFFF',
     paddingTop: 20,
-    // borderTopLeftRadius: 20,
-    // borderTopRightRadius: 20,
-    // shadowColor: '#000000',
-    // shadowOffset: {width: 0, height: 0},
-    // shadowRadius: 5,
-    // shadowOpacity: 0.4,
   },
   header: {
     backgroundColor: '#FFFFFF',

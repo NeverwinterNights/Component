@@ -2,13 +2,13 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Notification} from './screens/Notification';
 import {Search} from './screens/Search';
-import {Home} from './screens/Home';
 import {New} from './screens/New';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import {CustomTabButton} from './CustomTabButton';
 import {UserNavigation} from '../drawerNavigation/customDrawer/UserNavigation';
 import {RootDrawerParamList} from './navigationTypes';
+import {HomeNavigation} from '../cardScreen/HomeNavigator';
 
 type CustomTabNavigationComponentPropsType = {};
 // ставим yarn add @react-navigation/bottom-tabs
@@ -25,10 +25,11 @@ export const CustomTabNavigationComponent =
           // headerShown: false,
         }}>
         <Tab.Screen
-          name="Home"
-          component={Home}
+          name="HomeNavigation"
+          component={HomeNavigation}
           options={{
             headerShown: false,
+            title: 'Home',
             tabBarIcon: ({size, color}) => (
               <Entypo name="home" size={size} color={color} />
             ),
@@ -48,7 +49,6 @@ export const CustomTabNavigationComponent =
           name="Notification"
           component={Notification}
           options={{
-            headerShown: false,
             tabBarLabel: '',
             tabBarIcon: ({size, color, focused}) => (
               <CustomTabButton size={size} color={color} focused={focused} />

@@ -36,6 +36,17 @@ export const ImagePickerComponent = ({}: ImagePickerPropsType) => {
       .catch(err => {
         console.log('err', err);
       });
+
+    // try {
+    //   const res = await ImagePicker.openPicker({
+    //     width: 300,
+    //     height: 400,
+    //     cropping: true,
+    //   });
+    //   console.log(res);
+    // } catch (error) {
+    //   console.log('err', error);
+    // }
   };
 
   return (
