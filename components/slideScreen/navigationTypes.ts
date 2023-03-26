@@ -12,6 +12,8 @@ export type RootStackParamList = {
   SplashScreen: undefined;
   SignUpScreen: undefined;
   SignInScreen: undefined;
+
+  OnboardScreen: undefined;
 };
 
 export type NavigationUseType = NavigationProp<RootStackParamList>;
