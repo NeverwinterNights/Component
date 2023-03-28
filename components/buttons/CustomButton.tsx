@@ -53,7 +53,8 @@ export const CustomButton = ({
 
   return (
     <Pressable
-      style={contentWidth ? null : styles.container}
+      // style={contentWidth ? null : styles.container}
+      style={[styles.container, {width: contentWidth ? undefined : '100%'}]}
       onPressIn={fadeIn}
       onPressOut={fadeOut}
       disabled={disable}
@@ -75,7 +76,7 @@ export const CustomButton = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    // width: '100%',
   },
   button: {
     backgroundColor: colors.primary,

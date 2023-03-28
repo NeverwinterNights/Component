@@ -20,6 +20,10 @@ export type NavigationUseType = NavigationProp<RootStackParamList>;
 
 //типизация пропсов
 export type MainProps = NativeStackScreenProps<RootStackParamList, 'Main'>;
+export type OnboardScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'OnboardScreen'
+>;
 
 // позволяет типизировать навигейшен в комп
 export type NavigationUserNavType = NavigationProp<RootStackParamList>;

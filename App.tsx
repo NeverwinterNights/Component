@@ -37,6 +37,7 @@ import {AuthPlusMainRoutesPlusUseReducerPlusValidation} from './components/auth+
 import {CustomButton} from './components/buttons/CustomButton';
 import {CustomHeader} from './components/header/CustomHeader';
 import {MainBottomSheet} from './components/bottonSheet/simple/MainBottomSheet';
+import {SocialApp} from './SocialApp/src/SocialApp';
 
 // import {FlatListComponent} from './components/FlatListComponent';
 
@@ -79,7 +80,9 @@ const App = () => {
           {/*<DrawerWithStyle />*/}
           {/*<RootStackScreenLogin />*/}
           {/*<AuthPlusMainRoutes />*/}
-          <AuthPlusMainRoutesPlusUseReducerPlusValidation />
+          {/*<AuthPlusMainRoutesPlusUseReducerPlusValidation />*/}
+
+          <SocialApp />
           {/*<MainBottomSheet/>*/}
           {/*<CustomHeader*/}
           {/*  color="black"*/}
