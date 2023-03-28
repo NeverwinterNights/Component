@@ -14,8 +14,12 @@ import {FormButton} from '../components/FormButton';
 import {CustomButton} from '../../../components/buttons/CustomButton';
 import {SocialButton} from '../components/SocialButton';
 
-
 // аутентификация в фаербейс ставим yarn add @react-native-firebase/app
+// для аутентификации ставим еще yarn add @react-native-firebase/auth
+// создаем проект в фб заходим в аутентификацию, в Sign-in-метод, выбираем лигин пароль
+// заходим в project overvew и в нем в settings и добавляем апку, жмем на иконку андройда есмли надо то и оси
+// создаем  package name и никнейм и жмем далее, каччаем файл и далее нехт нехт далее делаем все по доке их прилаги фб
+// дальше копируем файлик скаченный с фб и вносим правки по доке в файлы
 
 
 type LoginScreenPropsType = {};
