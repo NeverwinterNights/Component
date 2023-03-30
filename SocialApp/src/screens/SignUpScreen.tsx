@@ -1,4 +1,4 @@
-import React, {useLayoutEffect, useState} from 'react';
+import React, {useContext, useLayoutEffect, useState} from 'react';
 import {
   Alert,
   StatusBar,
@@ -13,11 +13,16 @@ import {FormButton} from '../components/FormButton';
 import {SocialButton} from '../components/SocialButton';
 import {CustomButton} from '../../../components/buttons/CustomButton';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {AuthContext} from '../../context/AuthProvider';
 
 type SignUpScreenPropsType = {};
 
 export const SignUpScreen = ({}: SignUpScreenPropsType) => {
   const navigation = useAppNavigationSocialApp();
+
+  const {register, user} = useContext(AuthContext);
+  console.log('value', user);
+  console.log('SignUpScreen');
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -72,7 +77,7 @@ export const SignUpScreen = ({}: SignUpScreenPropsType) => {
       />
       <FormButton
         buttonTitle="Sign Up"
-        onPress={() => Alert.alert('Sign Up')}
+        onPress={() => register(email, password)}
       />
       <View style={styles.textPrivate}>
         <Text style={styles.color_textPrivate}>

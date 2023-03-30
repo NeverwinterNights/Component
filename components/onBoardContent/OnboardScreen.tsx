@@ -1,4 +1,3 @@
-import {StackActions} from '@react-navigation/native';
 import React from 'react';
 import {Image, StatusBar} from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
@@ -54,13 +53,10 @@ export const OnboardScreen = () => {
         // DotComponent={Dots}
         onDone={() => navigation.navigate('SignInScreen')}
         // onSkip={() => navigation.replace('SignInScreen')}
-        onSkip={() => navigation.dispatch(StackActions.replace('SignInScreen'))}
-        // onSkip={() =>
-        //   navigation.reset({
-        //     index: 0,
-        //     routes: [{name: 'SignInScreen'}],
-        //   })
-        // }
+        // onSkip={() => navigation.dispatch(StackActions.replace('SignInScreen'))}
+        onSkip={() =>
+          navigation.reset({index: 0, routes: [{name: 'SignInScreen'}]})
+        }
         pages={[
           {
             backgroundColor: '#a6e4d0',

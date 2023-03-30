@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   Alert,
   Image,
@@ -13,6 +13,7 @@ import {FormInput} from '../components/FormInput';
 import {FormButton} from '../components/FormButton';
 import {CustomButton} from '../../../components/buttons/CustomButton';
 import {SocialButton} from '../components/SocialButton';
+import {AuthContext} from '../../context/AuthProvider';
 
 // аутентификация в фаербейс ставим yarn add @react-native-firebase/app
 // для аутентификации ставим еще yarn add @react-native-firebase/auth
@@ -20,7 +21,8 @@ import {SocialButton} from '../components/SocialButton';
 // заходим в project overvew и в нем в settings и добавляем апку, жмем на иконку андройда есмли надо то и оси
 // создаем  package name и никнейм и жмем далее, каччаем файл и далее нехт нехт далее делаем все по доке их прилаги фб
 // дальше копируем файлик скаченный с фб и вносим правки по доке в файлы
-
+// apply plugin: 'com.google.gms.google-services' важнол чтобы название проекта совпадало с названием проекта в фб
+// firebase package name == android package name
 
 type LoginScreenPropsType = {};
 
@@ -28,6 +30,8 @@ export const LoginScreen = ({}: LoginScreenPropsType) => {
   const navigation = useAppNavigationSocialApp();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const {login} = useContext(AuthContext);
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor={'#f9fafd'} barStyle={'dark-content'} />
@@ -67,7 +71,7 @@ export const LoginScreen = ({}: LoginScreenPropsType) => {
         backgroundColor="#e6eaf4"
       />
       <SocialButton
-        onPress={() => {}}
+        onPress={() => login(email, password)}
         buttonTitle="Sign In with Google"
         btnName="google"
         color="#de4d41"

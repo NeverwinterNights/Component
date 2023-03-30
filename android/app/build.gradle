@@ -1,6 +1,5 @@
 apply plugin: "com.android.application"
 
-
 project.ext.vectoricons = [
     iconFontNames: [ 'MaterialIcons.ttf','Fontisto.ttf',  'Entypo.ttf', 'AntDesign.ttf',  'FontAwesome.ttf', 'Feather.ttf',
     'MaterialCommunityIcons.ttf',
@@ -336,3 +335,6 @@ def isNewArchitectureEnabled() {
     // - Set an environment variable `ORG_GRADLE_PROJECT_newArchEnabled=true`
     return project.hasProperty("newArchEnabled") && project.newArchEnabled == "true"
 }
+
+
+apply plugin: 'com.google.gms.google-services'
