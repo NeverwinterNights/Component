@@ -1,7 +1,8 @@
 apply plugin: "com.android.application"
 
 project.ext.vectoricons = [
-    iconFontNames: [ 'MaterialIcons.ttf','Fontisto.ttf',  'Entypo.ttf', 'AntDesign.ttf',  'FontAwesome.ttf', 'Feather.ttf',
+    iconFontNames: [ 'MaterialIcons.ttf','Fontisto.ttf', 'FontAwesome5.ttf',    'Entypo.ttf', 'AntDesign.ttf',  'FontAwesome.ttf',
+    'Feather.ttf',
     'MaterialCommunityIcons.ttf',
     'Ionicons.ttf' ]
       // Name of the font files you want to copy

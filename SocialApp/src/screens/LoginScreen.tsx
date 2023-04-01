@@ -1,6 +1,5 @@
 import React, {useContext, useState} from 'react';
 import {
-  Alert,
   Image,
   StatusBar,
   StyleSheet,
@@ -24,13 +23,18 @@ import {AuthContext} from '../../context/AuthProvider';
 // apply plugin: 'com.google.gms.google-services' важнол чтобы название проекта совпадало с названием проекта в фб
 // firebase package name == android package name
 
+// аутентификация гугл ставим yarn add @react-native-google-signin/google-signin. идем в проект на сайте фаербейс
+// в сеттингс внижу жмлм add fingpeint
+//https://www.youtube.com/watch?v=SdYp5JdMvs0&list=PLQWFhX-gwJblNXe9Fj0WomT0aWKqoDQ-h&index=39
+// в юзэффекте где проверяется первый запуск инициализируем гугл
+
 type LoginScreenPropsType = {};
 
 export const LoginScreen = ({}: LoginScreenPropsType) => {
   const navigation = useAppNavigationSocialApp();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const {login} = useContext(AuthContext);
+  const {login, googleLogin} = useContext(AuthContext);
 
   return (
     <View style={styles.container}>
@@ -58,7 +62,7 @@ export const LoginScreen = ({}: LoginScreenPropsType) => {
       />
       <FormButton
         buttonTitle="Sign In"
-        onPress={() => Alert.alert('Sign In')}
+        onPress={() => login(email, password)}
       />
       <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
         <Text style={styles.navButtonText}>Forgot Password</Text>
@@ -71,7 +75,7 @@ export const LoginScreen = ({}: LoginScreenPropsType) => {
         backgroundColor="#e6eaf4"
       />
       <SocialButton
-        onPress={() => login(email, password)}
+        onPress={() => googleLogin()}
         buttonTitle="Sign In with Google"
         btnName="google"
         color="#de4d41"
