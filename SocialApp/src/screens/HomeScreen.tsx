@@ -32,6 +32,7 @@ export const HomeScreen = ({}: HomeScreenPropsType) => {
           <FontAwesome5.Button
             name="plus"
             size={22}
+            underlayColor={'#fff'}
             backgroundColor="#fff"
             color="#2e64e5"
             onPress={() => {}}
@@ -44,8 +45,6 @@ export const HomeScreen = ({}: HomeScreenPropsType) => {
   return (
     <View style={styles.container}>
       <Text>HomeScreen</Text>
-      <FontAwesome5 name="apple-alt" solid size={33} />
-      <FontAwesome5 name="wrench" size={30} color="#900" />
       <Button onPress={() => logout()} title="Logout" />
     </View>
   );
