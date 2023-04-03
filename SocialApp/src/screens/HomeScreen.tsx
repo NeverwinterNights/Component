@@ -1,9 +1,12 @@
 import React, {useContext, useLayoutEffect} from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import {Button, FlatList, View} from 'react-native';
 import {AuthContext} from '../../context/AuthProvider';
 import {useAppNavigationSocialApp} from '../types/navigationTypesForSocialApp';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
+import {Container} from '../styles/homeStyles';
+import {Posts} from '../data/postData';
+import {CardItem} from '../components/CardItem';
 
 type HomeScreenPropsType = {};
 
@@ -25,8 +28,6 @@ export const HomeScreen = ({}: HomeScreenPropsType) => {
         shadowColor: '#fff',
         elevation: 0,
       },
-      // headerTintColor: colors.text,
-
       headerRight: () => (
         <View style={{marginRight: 10}}>
           <FontAwesome5.Button
@@ -35,7 +36,16 @@ export const HomeScreen = ({}: HomeScreenPropsType) => {
             underlayColor={'#fff'}
             backgroundColor="#fff"
             color="#2e64e5"
-            onPress={() => {}}
+            onPress={() =>
+              // navigation.navigate('AppNavigator', {
+              //   screen: 'HomeNavigator',
+              //   params: {screen: 'AddNewPost'},
+              // })
+              navigation.navigate('AppNavigator', {
+                screen: 'HomeNavigator',
+                params: {screen: 'AddNewPost'},
+              })
+            }
           />
         </View>
       ),
@@ -43,17 +53,15 @@ export const HomeScreen = ({}: HomeScreenPropsType) => {
   }, [navigation]);
 
   return (
-    <View style={styles.container}>
-      <Text>HomeScreen</Text>
+    <Container>
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={Posts}
+        renderItem={({item}) => <CardItem item={item} />}
+        keyExtractor={item => item.id}
+      />
+
       <Button onPress={() => logout()} title="Logout" />
-    </View>
+    </Container>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

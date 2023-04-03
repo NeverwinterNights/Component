@@ -1,17 +1,13 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {MainStackParamList} from '../types/navigationTypesForSocialApp';
-import {LoginScreen} from '../screens/LoginScreen';
-import {SignUpScreen} from '../screens/SignUpScreen';
 import {AuthContext} from '../../context/AuthProvider';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import {MainTabNavi} from './MainTabNavi';
+import {AppNavigator} from './AppNavigator';
+import {AuthNavigator} from './AuthNavigator';
 
 type MainSocialNavigatorPropsType = {};
 
-export const MainSocialNavigator = ({}: MainSocialNavigatorPropsType) => {
-  const Stack = createNativeStackNavigator<MainStackParamList>();
+export const MainScreen = ({}: MainSocialNavigatorPropsType) => {
 
   const {user, setUser} = useContext(AuthContext);
   const [initializing, setInitializing] = useState(true);
@@ -41,22 +37,7 @@ export const MainSocialNavigator = ({}: MainSocialNavigatorPropsType) => {
     return null;
   }
 
-  return (
-    <>
-      {user ? (
-        <MainTabNavi />
-      ) : (
-        <Stack.Navigator>
-          <Stack.Screen
-            options={{headerShown: false}}
-            name={'LoginScreen'}
-            component={LoginScreen}
-          />
-          <Stack.Screen name={'SignUpScreen'} component={SignUpScreen} />
-        </Stack.Navigator>
-      )}
-    </>
-  );
+  return <>{user ? <AppNavigator /> : <AuthNavigator />}</>;
 };
 
 // const styles = StyleSheet.create({

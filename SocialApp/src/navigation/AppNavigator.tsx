@@ -2,22 +2,22 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {HomeScreen} from '../screens/HomeScreen';
 import {MessagesScreen} from '../screens/MessagesScreen';
 import {ProfileScreen} from '../screens/ProfileScreen';
-import {MainTabNaviParamList} from '../types/navigationTypesForSocialApp';
+import {HomeNavigator} from './HomeNavigator';
 
 type MainTabNaviPropsType = {};
-const Tab = createBottomTabNavigator<MainTabNaviParamList>();
+const Tab = createBottomTabNavigator();
 
-export const MainTabNavi = ({}: MainTabNaviPropsType) => {
+export const AppNavigator = ({}: MainTabNaviPropsType) => {
   return (
     <Tab.Navigator screenOptions={{}}>
       <Tab.Screen
-        name="Home"
-        component={HomeScreen}
+        name="HomeNavigator"
+        component={HomeNavigator}
         options={{
           title: 'Home',
+          headerShown: false,
           tabBarIcon: ({size, color}) => (
             <MaterialCommunityIcons
               name="home-outline"

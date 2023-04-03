@@ -1,7 +1,7 @@
 import React from 'react';
-import {MainSocialNavigator} from './navigation/MainSocialNavigator';
 import {NavigationContainer} from '@react-navigation/native';
 import {AuthProvider} from '../context/AuthProvider';
+import {MainSocialAppNavigator} from './navigation/MainSoocialAppNavigator';
 
 type SocialAppPropsType = {};
 
@@ -9,7 +9,8 @@ export const SocialApp = ({}: SocialAppPropsType) => {
   return (
     <NavigationContainer>
       <AuthProvider>
-        <MainSocialNavigator />
+        {/*<MainScreen />*/}
+        <MainSocialAppNavigator />
       </AuthProvider>
     </NavigationContainer>
   );

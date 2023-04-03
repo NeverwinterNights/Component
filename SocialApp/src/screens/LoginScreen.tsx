@@ -83,7 +83,11 @@ export const LoginScreen = ({}: LoginScreenPropsType) => {
       />
 
       <CustomButton
-        onPress={() => navigation.navigate('SignUpScreen')}
+        onPress={() =>
+          navigation.navigate('AuthNavigator', {
+            screen: 'SignUpScreen',
+          })
+        }
         contentWidth
         styleButton={[styles.navButton]}
         labelStyle={[styles.navButtonText, {textTransform: 'none'}]}
