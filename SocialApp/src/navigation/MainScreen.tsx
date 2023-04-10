@@ -8,7 +8,6 @@ import {AuthNavigator} from './AuthNavigator';
 type MainSocialNavigatorPropsType = {};
 
 export const MainScreen = ({}: MainSocialNavigatorPropsType) => {
-
   const {user, setUser} = useContext(AuthContext);
   const [initializing, setInitializing] = useState(true);
 
