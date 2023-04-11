@@ -14,7 +14,7 @@ export const HomeNavigator = ({}: HomeNavigatorPropsType) => {
       <Stack.Screen name={'Home'} component={HomeScreen} />
       <Stack.Screen
         name={'AddNewPost'}
-        options={{headerTitleAlign: 'center', title: 'Add New Post'}}
+        options={{title: ''}}
         component={AddNewPost}
       />
     </Stack.Navigator>

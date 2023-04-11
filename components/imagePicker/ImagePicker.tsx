@@ -30,7 +30,6 @@ export const ImagePickerComponent = ({}: ImagePickerPropsType) => {
       cropping: true,
     })
       .then(image => {
-        console.log(image);
         setImageURI(image.path);
       })
       .catch(err => {

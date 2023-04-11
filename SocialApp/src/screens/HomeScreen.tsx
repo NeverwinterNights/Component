@@ -37,7 +37,6 @@ export const HomeScreen = ({}: HomeScreenPropsType) => {
             backgroundColor="#fff"
             color="#2e64e5"
             onPress={() => {
-              console.log('value');
               navigation.navigate('AppNavigator', {
                 screen: 'HomeNavigator',
                 params: {screen: 'AddNewPost'},
