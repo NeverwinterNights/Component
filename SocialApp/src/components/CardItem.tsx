@@ -16,6 +16,7 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {PostDataType} from '../screens/HomeScreen';
 import {AuthContext} from '../../context/AuthProvider';
+import moment from 'moment';
 
 type CardItemPropsType = {
   item: PostDataType;
@@ -30,7 +31,7 @@ export const CardItem = ({item, deletePost}: CardItemPropsType) => {
         <UserImg source={item.userImg} />
         <UserInfoText>
           <UserName>{item.userName}</UserName>
-          <PostTime>{item.postTime}</PostTime>
+          <PostTime>{moment(item.postTime.toDate()).fromNow()}</PostTime>
         </UserInfoText>
       </UserInfo>
       <PostText>{item.post}</PostText>

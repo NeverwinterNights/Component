@@ -14,7 +14,6 @@ import {Container} from '../styles/homeStyles';
 // import {Posts} from '../data/postData';
 import {CardItem} from '../components/CardItem';
 import firestore from '@react-native-firebase/firestore';
-import {getTimeElapsed} from '../utils/utils';
 import storage from '@react-native-firebase/storage';
 
 export type PostDataType = {
@@ -22,7 +21,7 @@ export type PostDataType = {
   userID: string;
   userName: string;
   userImg: ImageSourcePropType;
-  postTime: string;
+  postTime: any;
   post: string;
   postImg: string;
   liked: false;
@@ -72,6 +71,7 @@ export const HomeScreen = ({}: HomeScreenPropsType) => {
       ),
     });
   }, [navigation]);
+  console.log('value');
 
   const fetchPosts = useCallback(async () => {
     try {
@@ -87,7 +87,8 @@ export const HomeScreen = ({}: HomeScreenPropsType) => {
           userID,
           userName: 'Test Name',
           userImg: require('../../assets/users/user-1.jpg'),
-          postTime: getTimeElapsed(postTime._seconds, postTime._nanoseconds),
+          // postTime: getTimeElapsed(postTime._seconds, postTime._nanoseconds),
+          postTime: postTime,
           post: post,
           postImg: postImg,
           liked: false,
