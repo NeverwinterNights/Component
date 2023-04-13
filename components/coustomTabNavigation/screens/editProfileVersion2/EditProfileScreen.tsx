@@ -21,8 +21,9 @@ import Animated, {
   Extrapolate,
   interpolate,
   useAnimatedStyle,
-  useSharedValue, withTiming,
-} from "react-native-reanimated";
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import {CustomHeader} from '../../../header/CustomHeader';
 import {Switch} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';

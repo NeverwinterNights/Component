@@ -1,4 +1,4 @@
-import React, {useLayoutEffect, useState} from 'react';
+import React, {useContext, useLayoutEffect, useState} from 'react';
 import {ActivityIndicator, Alert, StyleSheet, Text, View} from 'react-native';
 import {
   AddImage,
@@ -15,6 +15,8 @@ import {FloatingAction} from 'react-native-floating-action';
 import ImagePicker from 'react-native-image-crop-picker';
 type AddNewPostPropsType = {};
 import storage from '@react-native-firebase/storage';
+import firestore from '@react-native-firebase/firestore';
+import {AuthContext} from '../../context/AuthProvider';
 
 const actions = [
   {
@@ -83,6 +85,9 @@ export const AddNewPost = ({}: AddNewPostPropsType) => {
   const [imageURI, setImageURI] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [transferred, setTransferred] = useState(0);
+  const [postMessage, setPostMessage] = useState<string | null>(null);
+
+  const {user} = useContext(AuthContext);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -138,51 +143,69 @@ export const AddNewPost = ({}: AddNewPostPropsType) => {
   };
 
   const uploadImage = async () => {
+    if (imageURI === null) {
+      return null;
+    }
     const uploadURL = imageURI;
     let fileName = uploadURL?.substring(uploadURL?.lastIndexOf('/') + 1);
     setUploading(true);
     setTransferred(0);
 
-    if (typeof uploadURL === 'string') {
-      const storageRef = storage().ref(`photos/${fileName}`);
+    const storageRef = storage().ref(`photos/${fileName}`);
+    const task = storageRef.putFile(uploadURL);
+    task.on('state_changed', taskSnapshot => {
+      setTransferred(
+        Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
+          100,
+      );
+    });
+    try {
+      await task;
 
-      // const task = storage().ref(fileName).putFile(uploadURL);
-      const task = storageRef.putFile(uploadURL);
-      task.on('state_changed', taskSnapshot => {
-        // console.log(
-        //   `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
-        // );
-        setTransferred(
-          Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
-            100,
-        );
-      });
-      try {
-        await task;
+      const url = await storageRef.getDownloadURL();
 
-        const url = await storageRef.getDownloadURL();
-
-        setUploading(false);
-        setImageURI(null);
-        Alert.alert('Image Uploaded!', 'Your Image Upload To Firebase');
-        return url;
-      } catch (error) {
-        console.log('error', error);
-        return null;
-      }
+      setUploading(false);
+      setImageURI(null);
+      Alert.alert('Image Uploaded!', 'Your Image Upload To Firebase');
+      return url;
+    } catch (error) {
+      console.log('error', error);
+      return null;
     }
   };
 
   const submitPost = async () => {
     const imageURL = await uploadImage();
-    console.log('imageURL', imageURL);
+    try {
+      await firestore()
+        .collection('post')
+        .add({
+          userID: user?.uid,
+          post: postMessage,
+          postImg: imageURL,
+          postTime: firestore.Timestamp.fromDate(new Date()),
+          likes: null,
+          comments: null,
+        });
+      Alert.alert('Post Added!', 'Your Post Added To Firebase');
+      setPostMessage(null);
+    } catch (error) {
+      console.log('error', error);
+      // Alert.alert('Post Not Added!', error ? error : '');
+    }
   };
 
   return (
     <View style={[styles.container]}>
       <InputWrapper>
         {imageURI !== null ? <AddImage source={{uri: imageURI}} /> : null}
-        <InputField placeholder={'Add Your Post'} multiline numberOfLines={5} />
+        <InputField
+          placeholder={'Add Your Post'}
+          multiline
+          numberOfLines={4}
+          value={postMessage ? postMessage : ''}
+          onChangeText={content => setPostMessage(content)}
+        />
         {uploading ? (
           <StatusWrapper>
             <Text>{transferred} % Completed</Text>

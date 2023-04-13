@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   Card,
   Divider,
@@ -14,13 +14,16 @@ import {
   UserName,
 } from '../styles/homeStyles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {PostType} from '../data/postData';
+import {PostDataType} from '../screens/HomeScreen';
+import {AuthContext} from '../../context/AuthProvider';
 
 type CardItemPropsType = {
-  item: PostType;
+  item: PostDataType;
+  deletePost: (postID: string) => void;
 };
 
-export const CardItem = ({item}: CardItemPropsType) => {
+export const CardItem = ({item, deletePost}: CardItemPropsType) => {
+  const {user} = useContext(AuthContext);
   return (
     <Card>
       <UserInfo>
@@ -31,7 +34,7 @@ export const CardItem = ({item}: CardItemPropsType) => {
         </UserInfoText>
       </UserInfo>
       <PostText>{item.post}</PostText>
-      {item.postImg && <PostImg source={item.postImg} />}
+      {item.postImg && <PostImg source={{uri: item.postImg}} />}
       <Divider />
       <InteractionWrapper>
         <Interaction active={item.liked}>
@@ -50,6 +53,11 @@ export const CardItem = ({item}: CardItemPropsType) => {
             {item.comments !== '0' ? item.comments : ''} Comment
           </InteractionText>
         </Interaction>
+        {user?.uid === item.userID ? (
+          <Interaction onPress={() => deletePost(item.id)}>
+            <Ionicons name="md-trash-bin" size={25} />
+          </Interaction>
+        ) : null}
       </InteractionWrapper>
     </Card>
   );

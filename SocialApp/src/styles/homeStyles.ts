@@ -10,7 +10,7 @@ export const Container = styled.View`
 
 export const Card = styled.View`
   border-radius: 10px;
-  width: 100%;
+  min-width: 100%;
   background-color: #f8f8f8;
   margin-bottom: 20px;
 `;
