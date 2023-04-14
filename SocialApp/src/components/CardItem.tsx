@@ -5,7 +5,6 @@ import {
   Interaction,
   InteractionText,
   InteractionWrapper,
-  PostImg,
   PostText,
   PostTime,
   UserImg,
@@ -17,6 +16,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {PostDataType} from '../screens/HomeScreen';
 import {AuthContext} from '../../context/AuthProvider';
 import moment from 'moment';
+import {ProgressiveImage} from './ProgressiveImage';
 
 type CardItemPropsType = {
   item: PostDataType;
@@ -35,8 +35,17 @@ export const CardItem = ({item, deletePost}: CardItemPropsType) => {
         </UserInfoText>
       </UserInfo>
       <PostText>{item.post}</PostText>
-      {item.postImg && <PostImg source={{uri: item.postImg}} />}
-      <Divider />
+      {/*{item.postImg && <PostImg source={{uri: item.postImg}} />}*/}
+      {item.postImg ? (
+        <ProgressiveImage
+          source={{uri: item.postImg}}
+          defaultImageSource={require('../../assets/default-img.jpg')}
+          style={{width: '100%', height: 250}}
+          resizeMode={'cover'}
+        />
+      ) : (
+        <Divider />
+      )}
       <InteractionWrapper>
         <Interaction active={item.liked}>
           <Ionicons

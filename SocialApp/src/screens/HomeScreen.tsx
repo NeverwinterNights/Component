@@ -1,12 +1,12 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from 'react';
-import {Alert, Button, FlatList, ImageSourcePropType, View} from 'react-native';
-import {AuthContext} from '../../context/AuthProvider';
+import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
+import {
+  Alert,
+  FlatList,
+  ImageSourcePropType,
+  SafeAreaView,
+  StatusBar,
+  View,
+} from 'react-native';
 import {useAppNavigationSocialApp} from '../types/navigationTypesForSocialApp';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
@@ -15,6 +15,7 @@ import {Container} from '../styles/homeStyles';
 import {CardItem} from '../components/CardItem';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
+import {SkeletonPlaceholderScreen} from './SkeletonPlaceholder';
 
 export type PostDataType = {
   id: string;
@@ -32,7 +33,6 @@ export type PostDataType = {
 type HomeScreenPropsType = {};
 
 export const HomeScreen = ({}: HomeScreenPropsType) => {
-  const {logout} = useContext(AuthContext);
   const navigation = useAppNavigationSocialApp();
   const [loading, setLoading] = useState(true);
   const [deleted, setDeleted] = useState(false);
@@ -71,7 +71,6 @@ export const HomeScreen = ({}: HomeScreenPropsType) => {
       ),
     });
   }, [navigation]);
-  console.log('value');
 
   const fetchPosts = useCallback(async () => {
     try {
@@ -203,17 +202,24 @@ export const HomeScreen = ({}: HomeScreenPropsType) => {
   };
 
   return (
-    <Container>
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        data={posts}
-        renderItem={({item}) => (
-          <CardItem item={item} deletePost={handleDelete} />
+    <>
+      <StatusBar backgroundColor={'white'} barStyle={'dark-content'} />
+      <SafeAreaView style={{flex: 1}}>
+        {loading ? (
+          <SkeletonPlaceholderScreen />
+        ) : (
+          <Container>
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              data={posts}
+              renderItem={({item}) => (
+                <CardItem item={item} deletePost={handleDelete} />
+              )}
+              keyExtractor={item => item.id}
+            />
+          </Container>
         )}
-        keyExtractor={item => item.id}
-      />
-
-      <Button onPress={() => logout()} title="Logout" />
-    </Container>
+      </SafeAreaView>
+    </>
   );
 };
