@@ -38,6 +38,10 @@ import {CustomButton} from './components/buttons/CustomButton';
 import {CustomHeader} from './components/header/CustomHeader';
 import {MainBottomSheet} from './components/bottonSheet/simple/MainBottomSheet';
 import {SocialApp} from './SocialApp/src/SocialApp';
+import {NewsApp} from './newsApp/NewsApp';
+import {TopTabs} from './components/topTabs/TopTabs';
+import {MainApp} from './mainApp/MainApp';
+import {KeyboardAvoidingViewComp} from './components/keyboardAvoidingView/KeyboardAvoidingViewComp';
 
 // import {FlatListComponent} from './components/FlatListComponent';
 
@@ -82,7 +86,12 @@ const App = () => {
           {/*<AuthPlusMainRoutes />*/}
           {/*<AuthPlusMainRoutesPlusUseReducerPlusValidation />*/}
 
-          <SocialApp />
+          {/*<MainApp />*/}
+
+          <KeyboardAvoidingViewComp />
+
+          {/*<SocialApp />*/}
+
           {/*<MainBottomSheet/>*/}
           {/*<CustomHeader*/}
           {/*  color="black"*/}

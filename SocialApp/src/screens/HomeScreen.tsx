@@ -3,7 +3,6 @@ import {
   Alert,
   FlatList,
   ImageSourcePropType,
-  SafeAreaView,
   StatusBar,
   View,
 } from 'react-native';
@@ -16,6 +15,7 @@ import {CardItem} from '../components/CardItem';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import {SkeletonPlaceholderScreen} from './SkeletonPlaceholder';
+import SafeAreaView from 'react-native-safe-area-view';
 
 export type PostDataType = {
   id: string;
